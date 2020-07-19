@@ -3,8 +3,10 @@ import ContactForm from './components/ContactForm';
 import ContactList from './components/ContactList';
 import Filter from './components/Filter';
 import { v4 as uuidv4 } from 'uuid';
+import { ToastContainer, toast, Zoom } from 'react-toastify';
 
 import styles from './App.module.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 class App extends Component {
   state = {
@@ -16,6 +18,8 @@ class App extends Component {
     ],
     filter: '',
   };
+
+  notify = text => toast.warn(text);
 
   deleteContact = contactId => {
     this.setState(prevState => ({
@@ -33,14 +37,14 @@ class App extends Component {
     const name = newContact.name.toLowerCase();
 
     if (name === '') {
-      alert(`Please enter name and number`);
+      this.notify(`Please enter name and number`);
       return;
     }
 
     if (
       this.state.contacts.find(contact => contact.name.toLowerCase() === name)
     ) {
-      alert(`${newContact.name} is already in contacts.`);
+      this.notify(`${newContact.name} is already in contacts.`);
       return;
     }
 
@@ -78,6 +82,13 @@ class App extends Component {
         ) : (
           <p>The contact list is empty. Please add a new contact.</p>
         )}
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          newestOnTop
+          limit={3}
+          transition={Zoom}
+        />
       </>
     );
   }
