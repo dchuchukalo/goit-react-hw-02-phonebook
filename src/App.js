@@ -32,13 +32,21 @@ class App extends Component {
   findAlreadyInContacts = newContact => {
     const name = newContact.name.toLowerCase();
 
-    name === ''
-      ? alert(`Please enter name and number`)
-      : this.state.contacts.find(contact => contact.name.toLowerCase() === name)
-      ? alert(`${newContact.name} is already in contacts.`)
-      : this.setState(prevState => ({
-          contacts: [newContact, ...prevState.contacts],
-        }));
+    if (name === '') {
+      alert(`Please enter name and number`);
+      return;
+    }
+
+    if (
+      this.state.contacts.find(contact => contact.name.toLowerCase() === name)
+    ) {
+      alert(`${newContact.name} is already in contacts.`);
+      return;
+    }
+
+    this.setState(prevState => ({
+      contacts: [newContact, ...prevState.contacts],
+    }));
   };
 
   changeFilter = e => {
@@ -59,11 +67,17 @@ class App extends Component {
         <h1 className={styles.title}>Phonebook</h1>
         <ContactForm onSubmit={this.formSubmitHandler} />
         <h2 className={styles.title}>Contacts</h2>
-        <Filter value={filter} onChange={this.changeFilter} />
-        <ContactList
-          contacts={filteredContacts}
-          deleteContact={this.deleteContact}
-        />
+        {contacts.length > 1 && (
+          <Filter value={filter} onChange={this.changeFilter} />
+        )}
+        {contacts.length > 0 ? (
+          <ContactList
+            contacts={filteredContacts}
+            deleteContact={this.deleteContact}
+          />
+        ) : (
+          <p>The contact list is empty. Please add a new contact.</p>
+        )}
       </>
     );
   }

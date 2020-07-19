@@ -9,7 +9,9 @@ class ContactForm extends Component {
   };
   handleChange = e => {
     const { name, value } = e.currentTarget;
-    this.setState({ [name]: value });
+    name === 'number'
+      ? this.setState({ [name]: value.replace(/[^\d-]/g, '') })
+      : this.setState({ [name]: value });
   };
 
   handleSubmit = e => {
