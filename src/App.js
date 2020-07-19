@@ -19,7 +19,9 @@ class App extends Component {
     filter: '',
   };
 
-  notify = text => toast.warn(text);
+  notifyWarn = text => toast.warn(text);
+
+  notifySuccess = text => toast.success(text);
 
   deleteContact = contactId => {
     this.setState(prevState => ({
@@ -37,20 +39,21 @@ class App extends Component {
     const name = newContact.name.toLowerCase();
 
     if (name === '') {
-      this.notify(`Please enter name and number`);
+      this.notifyWarn(`Please enter name and number`);
       return;
     }
 
     if (
       this.state.contacts.find(contact => contact.name.toLowerCase() === name)
     ) {
-      this.notify(`${newContact.name} is already in contacts.`);
+      this.notifyWarn(`${newContact.name} is already in contacts.`);
       return;
     }
 
     this.setState(prevState => ({
       contacts: [newContact, ...prevState.contacts],
     }));
+    this.notifySuccess('Added successfully');
   };
 
   changeFilter = e => {
@@ -84,7 +87,7 @@ class App extends Component {
         )}
         <ToastContainer
           position="top-center"
-          autoClose={3000}
+          autoClose={2000}
           newestOnTop
           limit={3}
           transition={Zoom}
