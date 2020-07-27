@@ -7,7 +7,6 @@ import { ToastContainer, toast, Zoom } from 'react-toastify';
 
 import styles from './App.module.css';
 import 'react-toastify/dist/ReactToastify.css';
-import 'modern-normalize/modern-normalize.css';
 
 class App extends Component {
   state = {
